@@ -1,10 +1,19 @@
-FROM steamcmd/steamcmd:latest
+FROM ubuntu:jammy
 
 RUN set -ex; \
     apt-get update -y;  \
     apt-get upgrade -y; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*;
+
+RUN echo steam steam/license note '' | sudo debconf-set-selections; \
+    echo steam steam/question select "I AGREE" | sudo debconf-set-selections;
+
+RUN add-apt-repository ; \
+    apt install software-properties-common; \
+    dpkg --add-architecture i386; \
+    apt update; \
+    apt install -y lib32gcc-s1 steamcmd; 
 
 RUN mkdir valheim
 
